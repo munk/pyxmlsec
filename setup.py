@@ -24,17 +24,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 __doc__ = """Python bindings for XMLSec Library
 
 PyXMLSec is a set of Python bindings for XML Security Library (XMLSec).
 """
 
 from distutils.core import setup, Extension
-import sys, commands
+import sys, subprocess
 
 # check python version
 if not hasattr(sys, 'version_info') or sys.version_info < (2,2):
-    raise SystemExit, "PyXMLSec requires Python version 2.2 or above."
+    raise SystemExit("PyXMLSec requires Python version 2.2 or above.")
 
 # sanity check for any arguments
 if len(sys.argv) == 1:
@@ -44,7 +46,7 @@ if len(sys.argv) == 1:
           '   3. Clean\n' \
           '   4. Exit\n' \
           'Your choice : '
-    reply = raw_input(msg)
+    reply = input(msg)
     choice = None
     if reply:
         choice = reply[0]
@@ -66,7 +68,7 @@ if 'build' in sys.argv:
           '   2. GnuTLS\n' \
           '   3. NSS\n' \
           'Your choice : '
-    reply = raw_input(msg)
+    reply = input(msg)
     choice = None
     if reply:
         choice = reply[0]
@@ -118,12 +120,12 @@ def extract_cflags(cflags):
                         if hacked_t not in define_macros:
                             define_macros.append(hacked_t)
                 except Exception as ex:
-                    print "Warning: I thought %s was a version flag but I don't understand %s as a number." % (repr(t), repr(version_as_string))
+                    print("Warning: I thought %s was a version flag but I don't understand %s as a number." % (repr(t), repr(version_as_string)))
 
             if t not in define_macros:
                 define_macros.append(t)
         else:
-            print "Warning : cflag %s skipped" % flag
+            print("Warning : cflag %s skipped" % flag)
 
 def extract_libs(libs):
     global library_dirs, libraries
@@ -138,36 +140,36 @@ def extract_libs(libs):
             if flag[2:] not in library_dirs:
                 library_dirs.append(flag[2:])
         else:
-            print "Warning : linker flag %s skipped" % flag
+            print("Warning : linker flag %s skipped" % flag)
 
 
-libxml2_cflags = commands.getoutput('pkg-config libxml-2.0 --cflags')
+libxml2_cflags = subprocess.getoutput('pkg-config libxml-2.0 --cflags')
 if libxml2_cflags[:2] not in ["-I", "-D"]:
-    libxml2_cflags = commands.getoutput('xml2-config --cflags')
+    libxml2_cflags = subprocess.getoutput('xml2-config --cflags')
 if libxml2_cflags[:2] not in ["-I", "-D"]:
-    print "Error : cannot get LibXML2 pre-processor and compiler flags"
+    print("Error : cannot get LibXML2 pre-processor and compiler flags")
 
-libxml2_libs = commands.getoutput('pkg-config libxml-2.0 --libs')
+libxml2_libs = subprocess.getoutput('pkg-config libxml-2.0 --libs')
 if libxml2_libs[:2] not in ["-l", "-L"]:
-    libxml2_libs = commands.getoutput('xml2-config --libs')
+    libxml2_libs = subprocess.getoutput('xml2-config --libs')
 if libxml2_libs[:2] not in ["-l", "-L"]:
-    print "Error : cannot get LibXML2 linker flags"
+    print("Error : cannot get LibXML2 linker flags")
 
 cmd = 'pkg-config xmlsec1-%s --cflags' % xmlsec1_crypto
-xmlsec1_cflags = commands.getoutput(cmd)
+xmlsec1_cflags = subprocess.getoutput(cmd)
 if xmlsec1_cflags[:2] not in ["-I", "-D"]:
     cmd = 'xmlsec1-config --cflags --crypto=%s' % xmlsec1_crypto
-    xmlsec1_cflags = commands.getoutput(cmd)
+    xmlsec1_cflags = subprocess.getoutput(cmd)
 if xmlsec1_cflags[:2] not in ["-I", "-D"]:
-    print "Error : cannot get XMLSec1 pre-processor and compiler flags"
+    print("Error : cannot get XMLSec1 pre-processor and compiler flags")
 
 cmd = 'pkg-config xmlsec1-%s --libs' % xmlsec1_crypto
-xmlsec1_libs = commands.getoutput(cmd)
+xmlsec1_libs = subprocess.getoutput(cmd)
 if xmlsec1_libs[:2] not in ["-l", "-L"]:
     cmd = 'xmlsec1-config --libs --crypto=%s' % xmlsec1_crypto
-    xmlsec1_libs = commands.getoutput(cmd)
+    xmlsec1_libs = subprocess.getoutput(cmd)
 if xmlsec1_libs[:2] not in ["-l", "-L"]:
-    print "Error : cannot get XMLSec1 linker flags"
+    print("Error : cannot get XMLSec1 linker flags")
 
 #print libxml2_cflags
 #print libxml2_libs
