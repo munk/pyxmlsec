@@ -5,28 +5,17 @@
 #
 # PyXMLSec - Python bindings for XML Security Library (XMLSec)
 #
-# Copyright (C) 2003-2005 Easter-eggs, Valéry Febvre
+# Copyright (C) 2003-2013 Easter-eggs, Valery Febvre
 # http://pyxmlsec.labs.libre-entreprise.org
-#
+# 
 # Author: Valery Febvre <vfebvre@easter-eggs.com>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# This is free software; see COPYING file in the source
+# distribution for preciese wording.
 
 """
 PyXMLSec - Python bindings for XML Security library (XMLSec)
-Copyright (C) 2003-2005 Easter-eggs, Valery Febvre
+Copyright (C) 2003-2013 Easter-eggs, Valery Febvre
 
 Author   : Valéry Febvre <vfebvre@easter-eggs.com>
 Homepage : http://pyxmlsec.labs.libre-entreprise.org
@@ -3571,14 +3560,13 @@ X509DATA_SKI_NODE          = 0x00000008
 X509DATA_CRL_NODE          = 0x00000010
 # Default set of nodes to write in case of empty <dsig:X509Data/> node template.
 X509DATA_DEFAULT           = X509DATA_CERTIFICATE_NODE | X509DATA_CRL_NODE
-def x509DataGetNodeContent(node, deleteChildren, keyInfoCtx):
+def x509DataGetNodeContent(node, keyInfoCtx):
     """
     Reads the contents of <dsig:X509Data/> node and returns it as a bits mask.
     node           : the <dsig:X509Data/> node.
-    deleteChildren : the flag that indicates whether to remove node children
     after reading.
     keyInfoCtx     : the <dsig:KeyInfo/> node processing context.
     Returns        : the bit mask representing the <dsig:X509Data/> node content
     or a negative value if an error occurs.
     """
-    return xmlsecmod.x509DataGetNodeContent(node, deleteChildren, keyInfoCtx)
+    return xmlsecmod.x509DataGetNodeContent(node, keyInfoCtx)
